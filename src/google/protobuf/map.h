@@ -33,6 +33,7 @@
 
 #include <iterator>
 #include <google/protobuf/stubs/hash.h>
+#include <limits>  // To support Visual Studio 2008
 
 #include <google/protobuf/arena.h>
 #include <google/protobuf/generated_enum_util.h>
@@ -167,11 +168,23 @@ class Map {
       }
     }
 
+#if __cplusplus >= 201103L && !defined(GOOGLE_PROTOBUF_OS_APPLE)
+    template<class NodeType, class... Args>
+    void construct(NodeType* p, Args&&... args) {
+      new (p) NodeType(std::forward<Args>(args)...);
+    }
+
+    template<class NodeType>
+    void destroy(NodeType* p) {
+      if (arena_ == NULL) p->~NodeType();
+    }
+#else
     void construct(pointer p, const_reference t) { new (p) value_type(t); }
 
     void destroy(pointer p) {
       if (arena_ == NULL) p->~value_type();
     }
+#endif
 
     template <typename X>
     struct rebind {
@@ -187,6 +200,11 @@ class Map {
     bool operator!=(const MapAllocator<X>& other) const {
       return arena_ != other.arena_;
     }
+
+	// To support Visual Studio 2008
+	size_type max_size() const {
+		return std::numeric_limits<size_type>::max();
+	}
 
    private:
     Arena* arena_;

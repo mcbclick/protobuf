@@ -16,14 +16,14 @@
 #define GOOGLE_PROTOBUF_HASH_MAP_CLASS unordered_map
 #define GOOGLE_PROTOBUF_HASH_SET_H <unordered_set>
 #define GOOGLE_PROTOBUF_HASH_SET_CLASS unordered_set
-#define GOOGLE_PROTOBUF_HASH_COMPARE hash_compare
+#define GOOGLE_PROTOBUF_HASH_COMPARE std::hash_compare
 #elif _MSC_VER >= 1500  // Since Visual Studio 2008
 #define GOOGLE_PROTOBUF_HASH_NAMESPACE std::tr1
 #define GOOGLE_PROTOBUF_HASH_MAP_H <unordered_map>
 #define GOOGLE_PROTOBUF_HASH_MAP_CLASS unordered_map
 #define GOOGLE_PROTOBUF_HASH_SET_H <unordered_set>
 #define GOOGLE_PROTOBUF_HASH_SET_CLASS unordered_set
-#define GOOGLE_PROTOBUF_HASH_COMPARE hash
+#define GOOGLE_PROTOBUF_HASH_COMPARE stdext::hash_compare
 #elif _MSC_VER >= 1310
 #define GOOGLE_PROTOBUF_HASH_NAMESPACE stdext
 #define GOOGLE_PROTOBUF_HASH_MAP_H <hash_map>
